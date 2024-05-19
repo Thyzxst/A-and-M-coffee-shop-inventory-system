@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags for character set and viewport -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the page -->
+    <title>A & M Coffee Shop Inventory</title>
+    <!-- Styling -->
+    <style>
+        /* Styling for the body */
+        body {
+            position: relative;
+            background-image: url('/static/background.jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Arial', sans-serif;
+            margin-top: 50px;
+            padding: 0;
+            color: #fff;
+        }
+        /* Styling for the heading */
+        h1 {
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 36px;
+            color: #996633; /* Brown color for title */
+        }
+        /* Styling for the table */
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 92%;
+        }
+        /* Styling for table headers and cells */
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #fff;
+        }
+        /* Styling for table headers */
+        th {
+            background-color: #666666; /* Changed brown to gray */
+            color: #fff;
+        }
+        /* Styling for even rows */
+        tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        /* Styling for odd rows */
+        tr:nth-child(odd) {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        /* Styling for the add item form */
+        .add-item-form {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        /* Styling for labels inside the add item form */
+        .add-item-form label {
+            display: block;
+            margin-bottom: 10px;
+            background-image: linear-gradient(to right, #ff9933, #996633, #ffcc00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #fff; /* White color for labels */
+        }
+        /* Styling for input fields and submit button inside the add item form */
+        .add-item-form input[type="text"],
+        .add-item-form input[type="submit"] {
+            padding: 5px;
+            margin-bottom: 10px;
+            color: #fff;
+            background-color: #666666; /* Changed brown to gray */
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        /* Styling for input fields and submit button inside the update form */
+        .update-form input[type="text"],
+        .update-form input[type="number"],
+        .update-form input[type="submit"] {
+            padding: 5px;
+            margin-bottom: 5px;
+            color: #fff;
+            background-color: #666666; /* Changed brown to gray */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Styling for submit button inside the delete form */
+        .delete-form input[type="submit"] {
+            margin-right:10px;
+            padding: 5px;
+            margin-bottom: 5px;
+            background-color: #666666; /* Changed brown to gray */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Styling for the logout button */
+        .logout-btn {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+        }
+        /* Styling for the print button */
+        .print-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+        /* Styling for logout and print buttons */
+        .logout-btn button, .print-btn button {
+            padding: 10px 20px;
+            background-color: #666666; /* Changed brown to gray */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Styling for search form */
+        .search-form {
+            text-align: center;
+            margin-bottom: 20px;
+            color: blue;
+        }
+        /* Styling for search input and button */
+        .search-form input[type="text"], .search-form button[type="submit"] {
+            padding: 5px;
+            margin-bottom: 10px;
+            color: white;
+            background-color: #666666; /* Changed brown to gray */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Heading -->
+    <h1>A & M Coffee Shop Inventory</h1>
+
+    <!-- Search form -->
+    <div class="search-form">
+        <form onsubmit="searchItem(); return false;">
+            <label for="search">Search by Item Number:</label>
+            <input type="text" id="search" name="search">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Table to display inventory items -->
+    <table id="inventoryTable">
+        <thead>
+            <!-- Table header row -->
+            <tr>
+                <th>Item Number</th> <!-- Changed ID to Item Number -->
+                <th>Category</th>
+                <th>Item Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through inventory items and display each item -->
+            {% for number, item in inventory_items %}
+            <tr>
+                <!-- Displaying item details -->
+                <td>{{ number }}</td>
+                <td>{{ item[1] }}</td>
+                <td>{{ item[2] }}</td>
+                <td>{{ item[3] }}</td>
+                <td>{{ item[4] }}</td>
+                <td>{{ item[5] }}</td>
+                <td>
+                    <!-- Form for updating item details -->
+                    <!-- Form for updating item details -->
+                    <form class="update-form" action="/update_inventory_item/{{ item[0] }}" method="post">
+                    <!-- Input fields for updating category, stock, name, description, and price -->
+                         <input type="text" name="category" placeholder="New Category">
+                         <input type="text" name="name" placeholder="New Item Name">
+                         <input type="text" name="description" placeholder="New Description">
+                         <input type="number" name="stock" placeholder="New Stock">
+                         <input type="number" name="price" placeholder="New Price">
+                         <input type="submit" value="Update">
+</form>
+
+                    </form>
+                    <!-- Form for deleting an item -->
+                    <form class="delete-form" action="/delete_inventory_item/{{ item[0] }}" method="post">
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Form for adding a new inventory item -->
+    <div class="add-item-form">
+        <form action="/add_inventory_item" method="post">
+            <label for="category" style="color: #fff;">Category:</label>
+            <input type="text" id="category" name="category">
+            <br>
+            <label for="name" style="color: #fff;">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <br>
+            <label for="description" style="color: #fff;">Description:</label>
+            <input type="text" id="description" name="description">
+            <br>
+            <label for="price" style="color: #fff;">Price:</label>
+            <input type="number" id="price" name="price" required>
+            <br>
+            <label for="stock" style="color: #fff;">Stock:</label>
+            <input type="number" id="stock" name="stock" required>
+            <br>
+            
+            <br>
+            <input type="submit" value="Add Item">
+        </form>
+    </div>
+
+    <!-- Logout button -->
+    <div class="logout-btn">
+        <form action="/logout" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+    <!-- Print button -->
+    <div class="print-btn">
+        <button onclick="window.print()">Print Inventory</button>
+    </div>
+
+    <!-- JavaScript for search functionality -->
+    <script>
+        function searchItem() {
+            // Get the search query
+            var query = document.getElementById('search').value.toLowerCase();
+            // Get the table body
+            var tableBody = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0];
+            // Get all table rows
+            var rows = tableBody.getElementsByTagName('tr');
+
+            // Loop through each row
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                // Get the item number cell content (assuming it's the first cell in the row)
+                var itemNumber = row.cells[0].textContent || row.cells[0].innerText;
+                
+                // If the item number matches the search query, display the row, otherwise hide it
+                if (itemNumber.toLowerCase().includes(query)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
